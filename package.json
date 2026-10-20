@@ -1,0 +1,49 @@
+{
+  "name": "big-o-lens",
+  "displayName": "Big-O Lens",
+  "description": "See an estimated time complexity above every C++ function, right in the editor.",
+  "version": "0.1.0",
+  "publisher": "your-publisher-id",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/your-username/big-o-lens" },
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Education", "Programming Languages", "Other"],
+  "keywords": ["big-o", "complexity", "c++", "competitive programming", "dsa", "leetcode"],
+  "activationEvents": ["onLanguage:cpp"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "bigOLens.explain", "title": "Big-O Lens: Explain Estimate" },
+      { "command": "bigOLens.toggle", "title": "Big-O Lens: Toggle Complexity Lenses" }
+    ],
+    "menus": {
+      "commandPalette": [{ "command": "bigOLens.explain", "when": "false" }]
+    },
+    "configuration": {
+      "title": "Big-O Lens",
+      "properties": {
+        "bigOLens.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show estimated time complexity above C++ functions."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node scripts/copy-wasm.js",
+    "test": "npm run compile && node out/test/runTests.js"
+  },
+  "dependencies": {
+    "web-tree-sitter": "0.22.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "tree-sitter-wasms": "0.1.11",
+    "typescript": "^5.3.0"
+  }
+}
