@@ -4,20 +4,49 @@
   "description": "See an estimated time complexity above every C++ function, right in the editor.",
   "version": "0.1.0",
   "publisher": "your-publisher-id",
-  "license": "SHYASHA-GUPTA",
-  "repository": { "type": "git", "url": "https://github.com/ShyashaGupta/big-o-lens" },
-  "engines": { "vscode": "^1.85.0" },
-  "categories": ["Education", "Programming Languages", "Other"],
-  "keywords": ["big-o", "complexity", "c++", "competitive programming", "dsa", "leetcode"],
-  "activationEvents": ["onLanguage:cpp"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/big-o-lens"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Education",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "big-o",
+    "complexity",
+    "c++",
+    "competitive programming",
+    "dsa",
+    "leetcode"
+  ],
+  "activationEvents": [
+    "onLanguage:cpp"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      { "command": "bigOLens.explain", "title": "Big-O Lens: Explain Estimate" },
-      { "command": "bigOLens.toggle", "title": "Big-O Lens: Toggle Complexity Lenses" }
+      {
+        "command": "bigOLens.explain",
+        "title": "Big-O Lens: Explain Estimate"
+      },
+      {
+        "command": "bigOLens.toggle",
+        "title": "Big-O Lens: Toggle Complexity Lenses"
+      }
     ],
     "menus": {
-      "commandPalette": [{ "command": "bigOLens.explain", "when": "false" }]
+      "commandPalette": [
+        {
+          "command": "bigOLens.explain",
+          "when": "false"
+        }
+      ]
     },
     "configuration": {
       "title": "Big-O Lens",
@@ -26,6 +55,18 @@
           "type": "boolean",
           "default": true,
           "description": "Show estimated time complexity above C++ functions."
+        },
+        "bigOLens.defaultN": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "Assumed input size n when no constraint comment or constant is found. 0 turns the TLE check off unless a constraint is written in the code."
+        },
+        "bigOLens.opsBudget": {
+          "type": "number",
+          "default": 100000000,
+          "minimum": 1,
+          "description": "Operations you consider safe within the time limit. Estimates up to this fit, up to 10x this are borderline, beyond that are likely TLE."
         }
       }
     }
@@ -35,7 +76,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "postinstall": "node scripts/copy-wasm.js",
-    "test": "npm run compile && node out/test/runTests.js"
+    "test": "npm run compile && node out/test/runTests.js && node out/test/constraintTests.js"
   },
   "dependencies": {
     "web-tree-sitter": "0.22.6"

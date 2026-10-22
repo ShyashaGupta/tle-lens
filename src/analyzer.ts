@@ -18,6 +18,7 @@ export interface FunctionResult {
   /** 0-based line where the function starts */
   line: number;
   label: string;
+  complexity: Complexity;
   notes: string[];
 }
 
@@ -343,6 +344,7 @@ export function analyzeFunction(fn: Node): FunctionResult | null {
     name: name || '(anonymous)',
     line: fn.startPosition.row,
     label: format(result),
+    complexity: result,
     notes: ctx.notes,
   };
 }
