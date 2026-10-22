@@ -141,4 +141,4 @@ test('assess: the headline cases', () => {
 });
 
 console.log(`\n${passed}/${passed + failed} constraint tests passed`);
-process.exit(failed ? 1 : 0);
+process.exitCode = failed ? 1 : 0;

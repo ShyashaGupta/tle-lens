@@ -15,7 +15,7 @@ class ComplexityLensProvider implements vscode.CodeLensProvider {
   }
 
   provideCodeLenses(doc: vscode.TextDocument): vscode.CodeLens[] {
-    const cfg = vscode.workspace.getConfiguration('bigOLens');
+    const cfg = vscode.workspace.getConfiguration('tleLens');
     if (!cfg.get<boolean>('enabled', true)) return [];
     const defaultN = cfg.get<number>('defaultN', 0);
     const budget = cfg.get<number>('opsBudget', 100_000_000);
@@ -25,7 +25,7 @@ class ComplexityLensProvider implements vscode.CodeLensProvider {
     try {
       results = analyzeSource(this.parser, text);
     } catch (err) {
-      console.error('Big-O Lens: analysis failed', err);
+      console.error('TLE Lens: analysis failed', err);
       return [];
     }
     const lines = text.split(/\r?\n/);
@@ -48,7 +48,7 @@ class ComplexityLensProvider implements vscode.CodeLensProvider {
       return new vscode.CodeLens(new vscode.Range(r.line, 0, r.line, 0), {
         title,
         tooltip: 'Click for details',
-        command: 'bigOLens.explain',
+        command: 'tleLens.explain',
         arguments: [r.name, r.label, notes],
       });
     });
@@ -60,7 +60,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   try {
     parser = await createCppParser(path.join(context.extensionPath, 'parsers'));
   } catch (err) {
-    vscode.window.showErrorMessage(`Big-O Lens could not load its C++ parser: ${String(err)}`);
+    vscode.window.showErrorMessage(`TLE Lens could not load its C++ parser: ${String(err)}`);
     return;
   }
 
@@ -69,7 +69,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   context.subscriptions.push(
     vscode.languages.registerCodeLensProvider({ language: 'cpp' }, provider),
 
-    vscode.commands.registerCommand('bigOLens.explain', (name: string, label: string, notes: string[]) => {
+    vscode.commands.registerCommand('tleLens.explain', (name: string, label: string, notes: string[]) => {
       const detail = notes.length ? notes.join('\n') : 'No loops, recursion or known library calls found.';
       vscode.window.showInformationMessage(
         `${name}: ${label} (estimated)`,
@@ -77,13 +77,13 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       );
     }),
 
-    vscode.commands.registerCommand('bigOLens.toggle', async () => {
-      const cfg = vscode.workspace.getConfiguration('bigOLens');
+    vscode.commands.registerCommand('tleLens.toggle', async () => {
+      const cfg = vscode.workspace.getConfiguration('tleLens');
       await cfg.update('enabled', !cfg.get<boolean>('enabled', true), vscode.ConfigurationTarget.Global);
     }),
 
     vscode.workspace.onDidChangeConfiguration((e) => {
-      if (e.affectsConfiguration('bigOLens')) provider.refresh();
+      if (e.affectsConfiguration('tleLens')) provider.refresh();
     }),
   );
 }

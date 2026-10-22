@@ -1,4 +1,4 @@
-# Big-O Lens
+# TLE Lens
 
 See an **estimated time complexity** above every C++ function, right in VS Code.
 

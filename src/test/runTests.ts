@@ -33,10 +33,10 @@ async function main(): Promise<void> {
   }
 
   console.log(`\n${passed}/${files.length} samples passed`);
-  process.exit(failures.length ? 1 : 0);
+  process.exitCode = failures.length ? 1 : 0;
 }
 
 main().catch((err) => {
   console.error(err);
-  process.exit(1);
+  process.exitCode = 1;
 });

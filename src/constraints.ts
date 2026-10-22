@@ -104,7 +104,7 @@ export function resolveConstraint(
   return (
     findConstraintAbove(lines, row) ??
     findFileConstraint(lines) ??
-    (defaultN > 0 ? { n: defaultN, source: 'setting bigOLens.defaultN' } : undefined)
+    (defaultN > 0 ? { n: defaultN, source: 'setting tleLens.defaultN' } : undefined)
   );
 }
 

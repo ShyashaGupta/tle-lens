@@ -1,7 +1,7 @@
 {
-  "name": "big-o-lens",
-  "displayName": "Big-O Lens",
-  "description": "See an estimated time complexity above every C++ function, right in the editor.",
+  "name": "tle-lens",
+  "displayName": "TLE Lens",
+  "description": "Know if your C++ solution will pass: estimated time complexity and a \"will this TLE?\" check above every function.",
   "version": "0.1.0",
   "publisher": "your-publisher-id",
   "license": "MIT",
@@ -18,6 +18,8 @@
     "Other"
   ],
   "keywords": [
+    "tle",
+    "codeforces",
     "big-o",
     "complexity",
     "c++",
@@ -32,37 +34,37 @@
   "contributes": {
     "commands": [
       {
-        "command": "bigOLens.explain",
-        "title": "Big-O Lens: Explain Estimate"
+        "command": "tleLens.explain",
+        "title": "TLE Lens: Explain Estimate"
       },
       {
-        "command": "bigOLens.toggle",
-        "title": "Big-O Lens: Toggle Complexity Lenses"
+        "command": "tleLens.toggle",
+        "title": "TLE Lens: Toggle Complexity Lenses"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "bigOLens.explain",
+          "command": "tleLens.explain",
           "when": "false"
         }
       ]
     },
     "configuration": {
-      "title": "Big-O Lens",
+      "title": "TLE Lens",
       "properties": {
-        "bigOLens.enabled": {
+        "tleLens.enabled": {
           "type": "boolean",
           "default": true,
           "description": "Show estimated time complexity above C++ functions."
         },
-        "bigOLens.defaultN": {
+        "tleLens.defaultN": {
           "type": "number",
           "default": 0,
           "minimum": 0,
           "description": "Assumed input size n when no constraint comment or constant is found. 0 turns the TLE check off unless a constraint is written in the code."
         },
-        "bigOLens.opsBudget": {
+        "tleLens.opsBudget": {
           "type": "number",
           "default": 100000000,
           "minimum": 1,
