@@ -1,5 +1,13 @@
 # TLE Lens
 
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/shyashagupta.tle-lens?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens)
+
+A Visual Studio Code extension for inline time complexity estimation of C++ functions.
+
+**Install:** Search for `TLE Lens` in VS Code Extensions.
+
+# TLE Lens
+
 See an **estimated time complexity** above every C++ function, right in VS Code.
 
 ```
