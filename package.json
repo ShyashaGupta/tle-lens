@@ -3,11 +3,11 @@
   "displayName": "TLE Lens",
   "description": "Know if your C++ solution will pass: estimated time complexity and a \"will this TLE?\" check above every function.",
   "version": "0.1.0",
-  "publisher": "your-publisher-id",
+  "publisher": "shyashagupta",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/big-o-lens"
+    "url": "https://github.com/ShyashaGupta/tle-lens"
   },
   "engines": {
     "vscode": "^1.85.0"
