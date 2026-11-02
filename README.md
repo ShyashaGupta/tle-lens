@@ -3,84 +3,109 @@
 
 [![Version](https://img.shields.io/visual-studio-marketplace/v/shyashagupta.tle-lens)](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/shyashagupta.tle-lens)](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens)
-[![License](https://img.shields.io/github/license/ShyashaGupta/tle-lens)](https://github.com/ShyashaGupta/tle-lens/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/ShyashaGupta/tle-lens)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/ShyashaGupta/tle-lens)](https://github.com/ShyashaGupta/tle-lens/issues)
-
-# TLE Lens
-
-[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/shyashagupta.tle-lens?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens)
 
 A Visual Studio Code extension for inline time complexity estimation of C++ functions.
 
-**Install:** Search for `TLE Lens` in VS Code Extensions.
+**Install:** Search for `TLE Lens` in VS Code Extensions or [install it from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens).
 
-# TLE Lens
+## Overview
 
 See an **estimated time complexity** above every C++ function, right in VS Code.
 
-```
-⏱ O(n²) · estimated
-int countPairs(vector<int>& a) { ... }
+```cpp
+// Example: O(n²) estimated
+int countPairs(vector<int>& a) {
+    // Your implementation
+}
 ```
 
-Click the lens to see *why* (which loops, which recursion, which library calls).
+Click the CodeLens to see *why* the complexity was estimated, including loops, recursion, and library calls.
 
-> Add a demo GIF here: `![demo](images/demo.gif)`
+<!-- Add a demo GIF here when available -->
+<!-- ![TLE Lens Demo](images/demo.gif) -->
 
 ## What it detects
 
 | Pattern | Result |
 |---|---|
 | No loops | O(1) |
-| Single loop, nested loops | O(n), O(n²), O(n³) … |
-| `i *= 2`, `n /= 10`, binary-search style `lo = mid + 1` | O(log n) |
+| Single and nested loops | O(n), O(n²), O(n³), ... |
+| `i *= 2`, `n /= 10`, binary-search-style `lo = mid + 1` | O(log n) |
 | `i * i <= n` | O(√n) |
 | Loops with constant bounds (`i < 5`) | O(1) |
 | `std::sort`, `stable_sort` | O(n log n) |
-| `std::find`, `count`, `accumulate`, `reverse`… | O(n) |
+| `std::find`, `count`, `accumulate`, `reverse`, etc. | O(n) |
 | `lower_bound`, `upper_bound`, `binary_search` | O(log n) |
 | Recursion: linear, halving, merge/quick sort shape, branching | O(n), O(log n), O(n log n), O(2ⁿ) |
 
-## Limitations (it is a heuristic, not a proof)
+## Limitations
+
+TLE Lens uses static analysis heuristics. Its estimates are not mathematical proofs.
 
 - Loop bounds are assumed to depend on input size `n`, unless they are literal constants.
-- Calls to your **other** functions are not followed (no whole-program analysis).
+- Calls to other functions are not followed (no whole-program analysis).
 - Member calls like `map.find()` or `set.insert()` are not costed.
-- Amortized patterns (two pointers, monotonic stack) may be over-estimated.
+- Amortized patterns (two pointers, monotonic stack) may be overestimated.
 - Recursion with memoization is reported as `O(?)`.
 - Quicksort-shaped recursion assumes balanced splits (average case).
 - C++ only for now.
 
+## Tech Stack
+
+- **Language:** TypeScript
+- **Parsing:** Tree-sitter C++ and WebAssembly
+- **Editor Integration:** VS Code Extension API and CodeLens
+- **Testing:** Automated analyzer test suite
+
 ## Develop
 
 ```bash
-npm install     # also copies the .wasm parser files into ./parsers
-npm test        # compiles and checks the analyzer against test-samples/
+npm install
+npm run compile
+npm test
 ```
-Then press **F5** in VS Code to launch an Extension Development Host and open any `.cpp` file.
 
-Add a test: drop a `.cpp` file into `test-samples/` starting with `// expect: O(...)`.
+Press **F5** in VS Code to launch an Extension Development Host and open any `.cpp` file.
+
+Add a test by placing a `.cpp` file in `test-samples/` starting with:
+
+```cpp
+// expect: O(...)
+```
 
 ## How it works
 
 1. `web-tree-sitter` (WebAssembly) parses the file into a syntax tree. It tolerates half-typed code.
-2. `src/analyzer.ts` walks each function: loops multiply the cost of their body, sequential code takes the max, and self-calls are classified (how many per path, and whether the input is split or shrinks).
+2. `src/analyzer.ts` walks each function: loops multiply the cost of their body, sequential code takes the maximum, and self-calls are classified by recursion structure.
 3. `src/extension.ts` renders results as CodeLens and shows the explanation on click.
 
 ## Publish
 
 ```bash
 npm install -g @vscode/vsce
-vsce login <your-publisher-id>
-vsce package      # creates big-o-lens-0.1.0.vsix  (test it: Extensions → ... → Install from VSIX)
+vsce package
 vsce publish
 ```
-Create the publisher ID at https://marketplace.visualstudio.com/manage (needs a Microsoft account / Azure DevOps token).
-Replace `publisher`, `repository` and the LICENSE name first.
+
+The generated VSIX package can be installed through **Extensions → ... → Install from VSIX**.
+
+Manage your publisher at:
+https://marketplace.visualstudio.com/manage
 
 ## Roadmap
 
 - Python and Java support
 - Follow calls between your own functions
-- Space complexity estimate
-- Optional "explain this" using an LLM
+- Space complexity estimation
+- Optional AI-powered explanations
+
+## Links
+
+- [GitHub Repository](https://github.com/ShyashaGupta/tle-lens)
+- [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=shyashagupta.tle-lens)
+
+## Contributing
+
+Contributions, bug reports, and feature suggestions are welcome! Feel free to open an issue or submit a pull request.
